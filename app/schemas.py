@@ -97,3 +97,25 @@ class DashboardStats(BaseModel):
     top_specialty: Dict[str, Any]
     promo_stats: List[Dict[str, Any]]
     grade_distribution: Dict[str, int]
+
+class StudentWithModuleRank(StudentBase):
+    id: int
+    created_at: datetime
+    updated_at: Optional[datetime] = None
+    module_rank: int
+    module_grade: float
+
+    class Config:
+        from_attributes = True
+
+class ModuleInfo(BaseModel):
+    module_name: str
+    total_students_with_grade: int
+    average_grade: float
+    highest_grade: float
+    lowest_grade: float
+
+class ModuleRankingResponse(BaseModel):
+    students: List[StudentWithModuleRank]
+    pagination: Dict[str, Any]
+    module_info: ModuleInfo
