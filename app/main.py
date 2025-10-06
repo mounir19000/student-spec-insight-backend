@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 from . import models
 from .database import engine, get_db
-from .routers import auth, students, upload, dashboard, promos, export
+from .routers import auth, students, upload, dashboard, promos, export, analysis
 from datetime import datetime
 
 # Create database tables
@@ -31,6 +31,7 @@ app.include_router(upload.router, prefix="/api/upload", tags=["Upload"])
 app.include_router(dashboard.router, prefix="/api/dashboard", tags=["Dashboard"])
 app.include_router(promos.router, prefix="/api/promos", tags=["Promos"])
 app.include_router(export.router, prefix="/api/export", tags=["Export"])
+app.include_router(analysis.router, prefix="/api/analysis", tags=["Analysis"])
 
 @app.get("/api/health")
 async def health_check():

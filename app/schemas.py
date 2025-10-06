@@ -119,3 +119,70 @@ class ModuleRankingResponse(BaseModel):
     students: List[StudentWithModuleRank]
     pagination: Dict[str, Any]
     module_info: ModuleInfo
+
+# Analysis schemas
+class AnalysisRequest(BaseModel):
+    promo: str
+    modules: List[str]
+
+class PCARequest(BaseModel):
+    promo: str
+    modules: List[str]
+    n_components: Optional[int] = None
+
+class ClusteringRequest(BaseModel):
+    promo: str
+    modules: List[str]
+    n_clusters: Optional[int] = None
+    auto_detect_k: bool = False
+    max_k: int = 10
+
+class ElbowRequest(BaseModel):
+    promo: str
+    modules: List[str]
+    max_k: int = 10
+
+class BiplotRequest(BaseModel):
+    promo: str
+    modules: List[str]
+    pc1: int = 1
+    pc2: int = 2
+    n_clusters: int = 3
+
+class AnalysisResponse(BaseModel):
+    success: bool
+    message: Optional[str] = None
+    data: Optional[Dict[str, Any]] = None
+    error: Optional[str] = None
+
+class PCAResponse(AnalysisResponse):
+    explained_variance: Optional[List[float]] = None
+    cumulative_variance: Optional[List[float]] = None
+    loadings: Optional[Dict[str, Dict[str, float]]] = None
+    variance_plot: Optional[str] = None
+    cumulative_plot: Optional[str] = None
+
+class ClusteringResponse(AnalysisResponse):
+    cluster_assignments: Optional[List[Dict[str, Any]]] = None
+    cluster_statistics: Optional[Dict[str, Any]] = None
+    silhouette_score: Optional[float] = None
+    elbow_plot: Optional[str] = None
+    optimal_k: Optional[int] = None
+
+class ElbowResponse(AnalysisResponse):
+    suggested_k: Optional[int] = None
+    elbow_scores: Optional[List[float]] = None
+    elbow_plot: Optional[str] = None
+    max_k_tested: Optional[int] = None
+
+class BiplotResponse(AnalysisResponse):
+    biplot: Optional[str] = None
+    pc1: Optional[int] = None
+    pc2: Optional[int] = None
+    explained_variance_pc1: Optional[float] = None
+    explained_variance_pc2: Optional[float] = None
+
+class AvailableModulesResponse(BaseModel):
+    success: bool
+    modules: List[str]
+    promo: str
